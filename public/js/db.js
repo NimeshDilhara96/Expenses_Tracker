@@ -447,13 +447,13 @@ export async function deleteIncomeSource(id, name) {
   }
 }
 
-async function onDelete(sourceId, sourceName) {
+async function onDelete(id) {
   if (!confirm(`Delete account "${sourceName}"?`)) {
     return;
   }
 
   try {
-    await deleteIncomeSource(sourceId, sourceName);
+    await deleteIncomeSource(id, sourceName);
     toast("Account deleted successfully");
     // Refresh list
     const sources = await fetchIncomeSources();
