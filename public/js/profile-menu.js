@@ -83,7 +83,7 @@ async function initProfileMenu() {
         return;
       }
 
-      const next = encodeURIComponent(`./${window.location.pathname.split("/").pop() || "index.html"}${window.location.hash || ""}`);
+      const next = encodeURIComponent(`/dashboard${window.location.hash || ""}`);
       window.location.href = `./auth.html?mode=signin&next=${next}`;
     });
   }

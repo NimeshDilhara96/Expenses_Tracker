@@ -126,12 +126,12 @@ function normalizeError(error) {
 
 function sanitizeNext(nextValue) {
   if (!nextValue) {
-    return "/expense";
+    return "/dashboard";
   }
 
   const decoded = decodeURIComponent(nextValue);
   if (!decoded.startsWith("./") || decoded.includes("://") || decoded.includes("\\")) {
-    return "/expense";
+    return "/dashboard";
   }
 
   return decoded;
