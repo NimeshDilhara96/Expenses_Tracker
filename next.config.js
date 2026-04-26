@@ -41,7 +41,6 @@ const nextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        { source: "/dashboard", destination: "/index.html" },
         { source: "/auth", destination: "/auth.html" },
         { source: "/expense", destination: "/expense.html" },
         { source: "/income", destination: "/income.html" },
