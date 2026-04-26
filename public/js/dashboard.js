@@ -386,10 +386,16 @@ function renderIncomeSourceScroller(sourceBalances) {
     card.setAttribute("tabindex", "0");
 
     const advanceToNext = () => {
-      const nextCard = cards[index + 1] ?? cards[0];
+      // If clicking the active card, navigate to accounts
+      if (card.classList.contains("is-active")) {
+        goToAccountDetails();
+        return;
+      }
+      
+      // Otherwise, make this card active
       cards.forEach((item) => item.classList.remove("is-active"));
-      nextCard.classList.add("is-active");
-      centerIncomeCard(dom.incomeSourceScroller, nextCard);
+      card.classList.add("is-active");
+      centerIncomeCard(dom.incomeSourceScroller, card);
     };
 
     card.addEventListener("click", advanceToNext);
