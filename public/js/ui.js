@@ -12,7 +12,7 @@ export function applyTheme(theme) {
 
 export function renderAuthView({ isBusy }) {
   const root = document.getElementById("auth-view");
-  const target = `${window.location.pathname.split("/").pop() || "index.html"}${window.location.hash || ""}`;
+  const target = `${window.location.pathname.split("/").pop() || "expense"}${window.location.hash || ""}`;
   const next = encodeURIComponent(`./${target}`);
 
   root.innerHTML = `

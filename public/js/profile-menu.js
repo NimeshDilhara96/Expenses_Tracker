@@ -57,7 +57,7 @@ async function initProfileMenu() {
       await signOut();
       closeMenu();
       await refreshEmail();
-      window.location.href = "./index.html";
+      window.location.href = "/auth";
     } catch {
       closeMenu();
       window.alert("Logout failed. Please try again.");
