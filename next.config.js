@@ -27,10 +27,20 @@ const nextConfig = {
       }
     ];
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/auth",
+        permanent: false
+      }
+    ];
+  },
+
   async rewrites() {
     return {
       beforeFiles: [
-        { source: "/", destination: "/index.html" },
         { source: "/auth", destination: "/auth.html" },
         { source: "/expense", destination: "/expense.html" },
         { source: "/income", destination: "/income.html" },
