@@ -438,11 +438,17 @@ function bindIncomeScrollerControls() {
   };
 
   if (dom.incomeSourcePrev) {
-    dom.incomeSourcePrev.onclick = () => slideByCard(-1);
+    dom.incomeSourcePrev.onclick = (event) => {
+      event.stopPropagation();
+      slideByCard(-1);
+    };
   }
 
   if (dom.incomeSourceNext) {
-    dom.incomeSourceNext.onclick = () => slideByCard(1);
+    dom.incomeSourceNext.onclick = (event) => {
+      event.stopPropagation();
+      slideByCard(1);
+    };
   }
 }
 
