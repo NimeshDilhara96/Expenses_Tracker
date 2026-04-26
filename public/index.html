@@ -82,10 +82,25 @@
 
     <section class="card dashboard-hero rounded-3xl border border-slate-200/70 p-4 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="goToAccountDetails()">
       <script>
+        window.currentSelectedAccount = null;
+        
         function goToAccountDetails() {
-          const selectedAccount = document.getElementById("income-source-scroller").querySelector('[data-selected="true"]')?.textContent || '';
-          if (selectedAccount) {
-            window.location.href = `./accounts.html?account=${encodeURIComponent(selectedAccount.trim())}`;
+          const scroller = document.getElementById("income-source-scroller");
+          const cards = scroller.querySelectorAll(".income-source-card");
+          
+          // Get the first visible/centered card (or the one closest to center)
+          let selectedAccountName = '';
+          if (cards.length > 0) {
+            // Get the account name from the first card's name element
+            const firstCard = cards[0];
+            const nameElement = firstCard.querySelector(".income-source-name");
+            if (nameElement) {
+              selectedAccountName = nameElement.textContent.trim();
+            }
+          }
+          
+          if (selectedAccountName) {
+            window.location.href = `./accounts.html?account=${encodeURIComponent(selectedAccountName)}`;
           } else {
             window.location.href = './accounts.html';
           }
