@@ -930,13 +930,7 @@ function renderIncomeSection() {
 
       state.isBusy = true;
       try {
-        const inUse = await isIncomeSourceInUse(source.name);
-        if (inUse) {
-          toast("Cannot delete a source that has income records.");
-          return;
-        }
-
-        await deleteIncomeSource(id);
+        await deleteIncomeSource(id, source.name);
         state.incomeSources = state.incomeSources.filter((item) => item.id !== id);
         if (state.selectedIncomeSource === source.name) {
           state.selectedIncomeSource = "All";

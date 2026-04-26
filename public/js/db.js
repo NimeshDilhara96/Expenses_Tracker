@@ -432,19 +432,3 @@ export async function deleteIncomeSource(id, name) {
     throw error;
   }
 }
-
-async function onDelete(id) {
-  if (!confirm(`Delete account "${sourceName}"?`)) {
-    return;
-  }
-
-  try {
-    await deleteIncomeSource(id, sourceName);
-    toast("Account deleted successfully");
-    // Refresh list
-    const sources = await fetchIncomeSources();
-    renderSourceList(sources);
-  } catch (error) {
-    toast(`Cannot delete: ${error.message}`, "error");
-  }
-}
