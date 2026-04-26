@@ -376,3 +376,89 @@ export async function deleteTransfer(id) {
     throw error;
   }
 }
+
+export async function calculateAccountBalance(accountName) {
+  const client = await getClient();
+  
+  // Get total income for this account
+  const { data: incomeData, error: incomeError } = await client
+    .from("incomes")
+    .select("amount")
+    .eq("source", accountName);
+  
+  if (incomeError) throw incomeError;
+  
+  const totalIncome = (incomeData || []).reduce((sum, item) => sum + Number(item.amount), 0);
+  
+  // Get total expenses from this account
+  const { data: expenseData, error: expenseError } = await client
+    .from("expenses")
+    .select("amount")
+    .eq("expense_source", accountName);
+  
+  if (expenseError) throw expenseError;
+  
+  const totalExpenses = (expenseData || []).reduce((sum, item) => sum + Number(item.amount), 0);
+  
+  // Get total transfers from this account
+  const { data: transferOutData, error: transferOutError } = await client
+    .from("transfers")
+    .select("amount")
+    .eq("from_account", accountName);
+  
+  if (transferOutError) throw transferOutError;
+  
+  const totalTransferOut = (transferOutData || []).reduce((sum, item) => sum + Number(item.amount), 0);
+  
+  // Get total transfers to this account
+  const { data: transferInData, error: transferInError } = await client
+    .from("transfers")
+    .select("amount")
+    .eq("to_account", accountName);
+  
+  if (transferInError) throw transferInError;
+  
+  const totalTransferIn = (transferInData || []).reduce((sum, item) => sum + Number(item.amount), 0);
+  
+  // Balance = Income + TransferIn - Expenses - TransferOut
+  const balance = totalIncome + totalTransferIn - totalExpenses - totalTransferOut;
+  
+  return balance;
+}
+
+export async function deleteIncomeSource(id, name) {
+  // Check if balance is zero
+  const balance = await calculateAccountBalance(name);
+  
+  if (balance !== 0) {
+    throw new Error(`Cannot delete account with balance ${balance.toFixed(2)}. Balance must be 0 to delete.`);
+  }
+  
+  // Check if source is in use
+  const inUse = await isIncomeSourceInUse(name);
+  if (inUse) {
+    throw new Error("Cannot delete account that has transactions. Please clear all transactions first.");
+  }
+  
+  const client = await getClient();
+  const { error } = await client.from("income_sources").delete().eq("id", id);
+  if (error) {
+    throw error;
+  }
+}
+
+async function onDelete(sourceId, sourceName) {
+  if (!confirm(`Delete account "${sourceName}"?`)) {
+    return;
+  }
+
+  try {
+    await deleteIncomeSource(sourceId, sourceName);
+    toast("Account deleted successfully");
+    // Refresh list
+    const sources = await fetchIncomeSources();
+    renderSourceList(sources);
+  } catch (error) {
+    toast(`Cannot delete: ${error.message}`, "error");
+  }
+}
