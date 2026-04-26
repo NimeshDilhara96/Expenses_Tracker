@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transfer Between Accounts</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell mx-auto max-w-2xl px-4 pb-28 pt-4 sm:px-6 lg:px-8">
+    <header class="mb-8">
+      <a class="app-logo mb-8 inline-flex" href="./index.html" aria-label="Go to dashboard home">
+        <span class="app-logo-mark" aria-hidden="true">
+          <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+        </span>
+        <span class="app-logo-meta">
+          <span class="app-logo-name">Expense Tracker</span>
+          <span class="app-logo-tag">Smart Finance</span>
+        </span>
+      </a>
+      <h1 class="text-3xl font-serif">Transfer Between Accounts</h1>
+      <p class="mt-2 text-slate-500">Move money from one account to another</p>
+    </header>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6">
+      <form id="transfer-form" class="form-grid grid gap-4">
+        <label>
+          From Account
+          <select id="transfer-from" name="from_account" required>
+            <option value="">Select account to transfer from</option>
+          </select>
+        </label>
+
+        <label>
+          To Account
+          <select id="transfer-to" name="to_account" required>
+            <option value="">Select account to transfer to</option>
+          </select>
+        </label>
+
+        <label>
+          Amount (LKR)
+          <input id="transfer-amount" name="amount" type="number" step="0.01" min="0" placeholder="0.00" required>
+        </label>
+
+        <label>
+          Date
+          <input id="transfer-date" name="transfer_date" type="date" required>
+        </label>
+
+        <label>
+          Note (Optional)
+          <textarea id="transfer-note" name="note" placeholder="Add a note about this transfer..." rows="3"></textarea>
+        </label>
+
+        <div id="transfer-status" class="eyebrow min-h-5 pt-2 text-xs" style="margin-top: 0.85rem;"></div>
+
+        <div class="dialog-actions mt-4 flex flex-wrap gap-2" style="justify-content: flex-start;">
+          <button id="transfer-submit" class="btn primary" type="submit">Complete Transfer</button>
+          <a href="./index.html" class="btn ghost">Cancel</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="card mt-8 rounded-3xl border border-slate-200/70 p-6">
+      <h2 class="text-2xl font-serif mb-4">Recent Transfers</h2>
+      <ul id="transfer-list" class="space-y-3">
+        <li class="text-slate-500">Loading transfers...</li>
+      </ul>
+    </section>
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Dashboard navigation">
+    <a class="bottom-nav-item" href="./index.html">
+      <span class="bottom-nav-icon" aria-hidden="true">H</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a class="bottom-nav-item active" href="./transfer.html">
+      <span class="bottom-nav-icon" aria-hidden="true">⇄</span>
+      <span class="bottom-nav-label">Transfer</span>
+    </a>
+    <a class="bottom-nav-item" href="./expense.html">
+      <span class="bottom-nav-icon" aria-hidden="true">-</span>
+      <span class="bottom-nav-label">Expense</span>
+    </a>
+    <a class="bottom-nav-item" href="./income.html">
+      <span class="bottom-nav-icon" aria-hidden="true">+</span>
+      <span class="bottom-nav-label">Income</span>
+    </a>
+  </nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="./js/transfer.js"></script>
+</body>
+</html>

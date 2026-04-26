@@ -163,3 +163,43 @@ create policy "delete own notes"
   on public.notes
   for delete
   using (auth.uid() = user_id);
+
+create table if not exists public.transfers (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  from_account text not null,
+  to_account text not null,
+  amount numeric(12, 2) not null check (amount > 0),
+  note text,
+  transfer_date date not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.transfers enable row level security;
+
+drop policy if exists "read own transfers" on public.transfers;
+drop policy if exists "insert own transfers" on public.transfers;
+drop policy if exists "update own transfers" on public.transfers;
+drop policy if exists "delete own transfers" on public.transfers;
+
+create policy "read own transfers"
+  on public.transfers
+  for select
+  using (auth.uid() = user_id);
+
+create policy "insert own transfers"
+  on public.transfers
+  for insert
+  with check (auth.uid() = user_id);
+
+create policy "update own transfers"
+  on public.transfers
+  for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+create policy "delete own transfers"
+  on public.transfers
+  for delete
+  using (auth.uid() = user_id);

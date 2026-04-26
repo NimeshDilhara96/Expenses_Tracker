@@ -322,3 +322,57 @@ export async function clearNotes() {
     throw error;
   }
 }
+
+export async function fetchTransfers() {
+  const client = await getClient();
+  const { data, error } = await client
+    .from("transfers")
+    .select("id, from_account, to_account, amount, note, transfer_date, created_at, updated_at")
+    .order("transfer_date", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
+
+export async function addTransfer(payload) {
+  const client = await getClient();
+  const { data, error } = await client
+    .from("transfers")
+    .insert(payload)
+    .select("id, from_account, to_account, amount, note, transfer_date, created_at, updated_at")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function updateTransfer(id, payload) {
+  const client = await getClient();
+  const { data, error } = await client
+    .from("transfers")
+    .update({ ...payload, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select("id, from_account, to_account, amount, note, transfer_date, created_at, updated_at")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function deleteTransfer(id) {
+  const client = await getClient();
+  const { error } = await client.from("transfers").delete().eq("id", id);
+  if (error) {
+    throw error;
+  }
+}

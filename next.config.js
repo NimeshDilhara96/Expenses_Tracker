@@ -45,6 +45,7 @@ const nextConfig = {
         { source: "/expense", destination: "/expense.html" },
         { source: "/income", destination: "/income.html" },
         { source: "/notes", destination: "/notes.html" },
+        { source: "/transfer", destination: "/transfer.html" },
         { source: "/addexpense", destination: "/addexpense.html" },
         { source: "/addincome", destination: "/addincome.html" }
       ]
