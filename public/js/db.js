@@ -166,14 +166,6 @@ export async function renameIncomeSource(id, name, details = null) {
   return data;
 }
 
-export async function deleteIncomeSource(id) {
-  const client = await getClient();
-  const { error } = await client.from("income_sources").delete().eq("id", id);
-  if (error) {
-    throw error;
-  }
-}
-
 export async function replaceIncomeSourceName(oldName, newName) {
   const client = await getClient();
   const { error: incomesError } = await client
@@ -432,12 +424,6 @@ export async function deleteIncomeSource(id, name) {
   
   if (balance !== 0) {
     throw new Error(`Cannot delete account with balance ${balance.toFixed(2)}. Balance must be 0 to delete.`);
-  }
-  
-  // Check if source is in use
-  const inUse = await isIncomeSourceInUse(name);
-  if (inUse) {
-    throw new Error("Cannot delete account that has transactions. Please clear all transactions first.");
   }
   
   const client = await getClient();
