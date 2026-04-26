@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Details</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell mx-auto max-w-6xl px-4 pb-28 pt-4 sm:px-6 lg:px-8">
+    <header class="dashboard-topbar flex items-center justify-between gap-4 mb-8">
+      <div class="topbar-heading">
+        <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+          <span class="app-logo-mark" aria-hidden="true">
+            <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+          </span>
+          <span class="app-logo-meta">
+            <span class="app-logo-name">Expense Tracker</span>
+            <span class="app-logo-tag">Smart Finance</span>
+          </span>
+        </a>
+      </div>
+      <a href="./index.html" class="text-sm font-medium text-slate-400 hover:text-slate-600">← Back to Dashboard</a>
+    </header>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-serif">Account Details</h1>
+        <select id="account-select" class="px-4 py-2 border rounded-lg">
+          <option value="">Select Account</option>
+        </select>
+      </div>
+
+      <div id="account-summary" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="card p-4 bg-slate-50">
+          <p class="text-sm text-slate-600">Total Income</p>
+          <p id="total-income" class="text-2xl font-semibold">LKR 0.00</p>
+        </div>
+        <div class="card p-4 bg-slate-50">
+          <p class="text-sm text-slate-600">Total Expenses</p>
+          <p id="total-expenses" class="text-2xl font-semibold">LKR 0.00</p>
+        </div>
+        <div class="card p-4 bg-blue-50">
+          <p class="text-sm text-slate-600">Current Balance</p>
+          <p id="current-balance" class="text-2xl font-semibold text-blue-600">LKR 0.00</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6 mb-8">
+      <h2 class="text-2xl font-serif mb-4">Filters</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <label>
+          Period
+          <select id="period-select">
+            <option value="ALL">All Time</option>
+            <option value="THIS_MONTH">This Month</option>
+            <option value="THIS_YEAR">This Year</option>
+            <option value="CUSTOM">Custom Range</option>
+          </select>
+        </label>
+        <label id="date-from-label" class="hidden">
+          From Date
+          <input id="date-from" type="date">
+        </label>
+        <label id="date-to-label" class="hidden">
+          To Date
+          <input id="date-to" type="date">
+        </label>
+      </div>
+    </section>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6 mb-8">
+      <h2 class="text-2xl font-serif mb-4">Income Transactions</h2>
+      <ul id="income-list" class="space-y-3">
+        <li class="text-slate-500">No income transactions</li>
+      </ul>
+    </section>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6 mb-8">
+      <h2 class="text-2xl font-serif mb-4">Expense Transactions</h2>
+      <ul id="expense-list" class="space-y-3">
+        <li class="text-slate-500">No expense transactions</li>
+      </ul>
+    </section>
+
+    <section class="card rounded-3xl border border-slate-200/70 p-6">
+      <h2 class="text-2xl font-serif mb-4">Transfers</h2>
+      <ul id="transfer-list" class="space-y-3">
+        <li class="text-slate-500">No transfers</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="./js/accounts.js"></script>
+</body>
+</html>

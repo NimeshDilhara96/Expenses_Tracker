@@ -47,7 +47,8 @@ const nextConfig = {
         { source: "/notes", destination: "/notes.html" },
         { source: "/transfer", destination: "/transfer.html" },
         { source: "/addexpense", destination: "/addexpense.html" },
-        { source: "/addincome", destination: "/addincome.html" }
+        { source: "/addincome", destination: "/addincome.html" },
+        { source: "/accounts", destination: "/accounts.html" }
       ]
     };
   }
