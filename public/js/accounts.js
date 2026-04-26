@@ -36,6 +36,11 @@ let state = {
   dateTo: null
 };
 
+const accountHeading = document.createElement("h1");
+accountHeading.id = "account-heading";
+accountHeading.className = "text-3xl font-serif";
+accountHeading.textContent = "Account Details";
+
 init();
 
 async function init() {
@@ -112,6 +117,15 @@ function setupEventListeners() {
 
 async function selectAccount(accountName) {
   state.selectedAccount = accountName;
+  
+  // Update the heading with selected account name
+  const heading = document.querySelector("h1");
+  if (accountName) {
+    heading.textContent = `Account Details: ${accountName}`;
+  } else {
+    heading.textContent = "Account Details";
+  }
+  
   updateDisplay();
 }
 
