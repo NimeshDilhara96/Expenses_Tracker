@@ -61,7 +61,14 @@ async function init() {
     populateAccountSelect();
     setupEventListeners();
     
-    if (sources.length > 0) {
+    // Get account from URL parameter
+    const params = new URLSearchParams(window.location.search);
+    const selectedAccountParam = params.get("account");
+    
+    if (selectedAccountParam) {
+      dom.accountSelect.value = selectedAccountParam;
+      selectAccount(selectedAccountParam);
+    } else if (sources.length > 0) {
       selectAccount(sources[0].name);
     }
   } catch (error) {
