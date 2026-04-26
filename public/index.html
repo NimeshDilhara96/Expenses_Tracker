@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Manrope", "sans-serif"],
+            serif: ["Fraunces", "serif"]
+          },
+          colors: {
+            brand: {
+              50: "#effaf7",
+              100: "#d1f2ea",
+              500: "#136f63",
+              600: "#0f5a52",
+              700: "#0d4a45"
+            },
+            ember: {
+              400: "#e67f34",
+              500: "#c66827"
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell mx-auto max-w-6xl px-4 pb-28 pt-4 sm:px-6 lg:px-8">
+    <header class="dashboard-topbar flex items-center justify-between gap-4">
+      <div class="topbar-heading">
+        <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+          <span class="app-logo-mark" aria-hidden="true">
+            <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+          </span>
+          <span class="app-logo-meta">
+            <span class="app-logo-name">Expense Tracker</span>
+            <span class="app-logo-tag">Smart Finance</span>
+          </span>
+        </a>
+      </div>
+      <div class="topbar-actions">
+        <div class="profile-hello-chip" aria-live="polite">
+          <span class="profile-hello-text js-profile-hello-text">Hello</span>
+        </div>
+        <div class="profile-menu-wrap">
+          <button id="profile-trigger" class="profile-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Open profile menu">
+            <span class="avatar-pill" data-default-avatar="N" aria-hidden="true">N</span>
+          </button>
+          <div id="profile-menu" class="profile-popover hidden" role="menu" aria-label="Profile menu">
+            <div class="profile-menu-head" role="none">
+              <span class="profile-menu-badge">Account</span>
+              <p id="profile-email" class="profile-email">Not signed in</p>
+              <p class="profile-menu-sub">Manage your account and appearance.</p>
+            </div>
+            <div class="profile-menu-actions" role="none">
+              <button id="profile-login-btn" class="profile-action-btn profile-theme-btn" type="button">Sign in / Sign up</button>
+              <button id="profile-theme-toggle" class="profile-action-btn profile-theme-btn" type="button">Dark mode</button>
+              <button id="profile-language-toggle" class="profile-action-btn profile-theme-btn" type="button">සිංහල</button>
+              <button id="profile-logout-btn" class="profile-action-btn profile-logout-btn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card dashboard-hero rounded-3xl border border-slate-200/70 p-4 sm:p-6">
+      <div class="income-strip-block">
+        <div class="income-strip-heading">
+          <span class="income-strip-label">Accounts</span>
+          <div class="income-strip-controls">
+            <span id="income-source-hint" class="income-strip-hint">All income sources • Total LKR 0.00</span>
+            <button id="income-source-prev" class="income-strip-arrow" type="button" aria-label="Previous income source">‹</button>
+            <button id="income-source-next" class="income-strip-arrow" type="button" aria-label="Next income source">›</button>
+          </div>
+        </div>
+        <div id="income-source-scroller" class="income-source-scroller" aria-label="Income sources"></div>
+      </div>
+    </section>
+
+    <section class="dashboard-stats grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <article class="card stat-card">
+        <p class="stat-label">Savings Rate</p>
+        <p id="savings-rate-value" class="stat-value">0%</p>
+        <p id="savings-rate-meta" class="stat-meta positive">vs last month</p>
+      </article>
+      <article class="card stat-card">
+        <p class="stat-label">Top Category</p>
+        <p id="top-category-name" class="stat-value">No data</p>
+        <p id="top-category-value" class="stat-meta">LKR 0.00</p>
+      </article>
+    </section>
+
+    <section class="card dashboard-actions-card rounded-3xl border border-slate-200/70 p-4 sm:p-6">
+      <div class="summary-heading">
+        <h2>Quick actions</h2>
+      </div>
+      <div class="quick-actions-grid grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <a class="action-tile" href="./addexpense.html">
+          <span class="action-icon" aria-hidden="true">-</span>
+          <span class="action-text-wrap">
+            <strong>Add Expense</strong>
+            <span>Quickly record a new expense</span>
+          </span>
+        </a>
+        <a class="action-tile" href="./addincome.html">
+          <span class="action-icon" aria-hidden="true">+</span>
+          <span class="action-text-wrap">
+            <strong>Add Income Source</strong>
+            <span>Quickly add/manage income sources</span>
+          </span>
+        </a>
+        <a class="action-tile" href="./expense.html">
+          <span class="action-icon" aria-hidden="true">=</span>
+          <span class="action-text-wrap">
+            <strong>Expense Page</strong>
+            <span>Analyze spending and filters</span>
+          </span>
+        </a>
+        <a class="action-tile" href="./income.html">
+          <span class="action-icon" aria-hidden="true">~</span>
+          <span class="action-text-wrap">
+            <strong>Income Page</strong>
+            <span>Analyze income and sources</span>
+          </span>
+        </a>
+        <a class="action-tile" href="./notes.html">
+          <span class="action-icon" aria-hidden="true">N</span>
+          <span class="action-text-wrap">
+            <strong>Memory Page</strong>
+            <span id="memory-collect-value">To collect LKR 0.00</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card dashboard-insights-card rounded-3xl border border-slate-200/70 p-4 sm:p-6">
+      <div class="summary-heading">
+        <h2>Today focus</h2>
+      </div>
+      <ul id="focus-list" class="focus-list">
+        <li>Loading your insights...</li>
+      </ul>
+    </section>
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Dashboard navigation">
+    <a class="bottom-nav-item active" href="./index.html">
+      <span class="bottom-nav-icon" aria-hidden="true">H</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a class="bottom-nav-item" href="./expense.html">
+      <span class="bottom-nav-icon" aria-hidden="true">-</span>
+      <span class="bottom-nav-label">Expense</span>
+    </a>
+    <a class="bottom-nav-item" href="./income.html">
+      <span class="bottom-nav-icon" aria-hidden="true">+</span>
+      <span class="bottom-nav-label">Income</span>
+    </a>
+    <a class="bottom-nav-item" href="./notes.html">
+      <span class="bottom-nav-icon" aria-hidden="true">N</span>
+      <span class="bottom-nav-label">Notes</span>
+    </a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script type="module" src="./js/dashboard.js"></script>
+  <script type="module" src="./js/profile-menu.js"></script>
+</body>
+</html>

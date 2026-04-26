@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Income</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased">
+  <main class="app-shell dashboard-shell mx-auto grid min-h-dvh max-w-xl place-items-center px-4 py-6">
+    <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+      <span class="app-logo-mark" aria-hidden="true">
+        <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+      </span>
+      <span class="app-logo-meta">
+        <span class="app-logo-name">Expense Tracker</span>
+        <span class="app-logo-tag">Smart Finance</span>
+      </span>
+    </a>
+    <section class="card dashboard-card w-full rounded-3xl border border-slate-200/70 p-6 text-center">
+      <h1 class="text-2xl font-serif">Add Income</h1>
+      <p class="overview-range mt-2 text-sm text-slate-500">Opening quick add income...</p>
+      <a class="btn ghost" href="./income.html?quick=add-income#income-form-card">Continue</a>
+    </section>
+  </main>
+
+  <script>
+    window.location.replace("./income.html?quick=add-income#income-form-card");
+  </script>
+</body>
+</html>

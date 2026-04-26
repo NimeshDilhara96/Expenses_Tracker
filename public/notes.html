@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker - Memory Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Manrope", "sans-serif"],
+            serif: ["Fraunces", "serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell notes-shell mx-auto max-w-5xl px-4 pb-28 pt-4 sm:px-6 lg:px-8">
+    <header class="dashboard-topbar">
+      <div class="topbar-heading">
+        <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+          <span class="app-logo-mark" aria-hidden="true">
+            <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+          </span>
+          <span class="app-logo-meta">
+            <span class="app-logo-name">Expense Tracker</span>
+            <span class="app-logo-tag">Smart Finance</span>
+          </span>
+        </a>
+      </div>
+      <div class="topbar-actions">
+        <div class="profile-hello-chip" aria-live="polite">
+          <span class="profile-hello-text js-profile-hello-text">Hello</span>
+        </div>
+        <div class="profile-menu-wrap">
+          <button id="profile-trigger" class="profile-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Open profile menu">
+            <span class="avatar-pill" data-default-avatar="N" aria-hidden="true">N</span>
+          </button>
+          <div id="profile-menu" class="profile-popover hidden" role="menu" aria-label="Profile menu">
+            <div class="profile-menu-head" role="none">
+              <span class="profile-menu-badge">Account</span>
+              <p id="profile-email" class="profile-email">Not signed in</p>
+              <p class="profile-menu-sub">Manage your account and appearance.</p>
+            </div>
+            <div class="profile-menu-actions" role="none">
+              <button id="profile-login-btn" class="profile-action-btn profile-theme-btn" type="button">Sign in / Sign up</button>
+              <button id="profile-theme-toggle" class="profile-action-btn profile-theme-btn" type="button">Dark mode</button>
+              <button id="profile-language-toggle" class="profile-action-btn profile-theme-btn" type="button">සිංහල</button>
+              <button id="profile-logout-btn" class="profile-action-btn profile-logout-btn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="auth-view" class="card"></section>
+
+    <section id="app-view" class="hidden">
+      <section class="card notes-hero rounded-3xl border border-slate-200/70 p-5 sm:p-6">
+        <div>
+          <p class="hero-label">Save details</p>
+          <h2>Track person-wise expenses, amounts, and reminders</h2>
+          <p class="hero-meta">Stored in your Supabase database. Person totals are collected automatically.</p>
+        </div>
+      </section>
+
+      <section class="card notes-panel rounded-3xl border border-slate-200/70 p-5 sm:p-6">
+        <form id="note-form" class="notes-form">
+          <label>
+            Person name
+            <input id="note-person" type="text" list="person-options" maxlength="60" placeholder="e.g. Nimesh" required>
+          </label>
+          <datalist id="person-options"></datalist>
+          <div id="person-chips" class="person-chip-row" aria-label="Existing people"></div>
+          <label>
+            Expense title
+            <input id="note-title" type="text" maxlength="60" placeholder="e.g. Electricity bill" required>
+          </label>
+          <label>
+            Amount (LKR)
+            <input id="note-amount" type="number" min="1" step="0.01" placeholder="e.g. 2450" required>
+          </label>
+          <label>
+            Entry type
+            <select id="note-type">
+              <option value="given">Given</option>
+              <option value="returned">Returned</option>
+            </select>
+          </label>
+          <label>
+            Category
+            <select id="note-category">
+              <option value="General">General</option>
+              <option value="Account">Account</option>
+              <option value="Reminder">Reminder</option>
+              <option value="Important">Important</option>
+            </select>
+          </label>
+          <label class="full-width">
+            Details
+            <textarea id="note-details" rows="5" maxlength="400" placeholder="Write the expense details you want to remember..." required></textarea>
+          </label>
+          <button class="btn primary full-width" type="submit">Save Expense Note</button>
+        </form>
+      </section>
+
+      <section class="card notes-panel rounded-3xl border border-slate-200/70 p-5 sm:p-6">
+        <div class="summary-heading">
+          <h2>Person ledger</h2>
+          <button id="note-clear" class="btn ghost" type="button">Clear all</button>
+        </div>
+        <p class="eyebrow">Totals are auto-calculated from Given and Returned entries.</p>
+        <div id="notes-list" class="notes-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Dashboard navigation">
+    <a class="bottom-nav-item" href="./index.html">
+      <span class="bottom-nav-icon" aria-hidden="true">H</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a class="bottom-nav-item" href="./expense.html">
+      <span class="bottom-nav-icon" aria-hidden="true">-</span>
+      <span class="bottom-nav-label">Expense</span>
+    </a>
+    <a class="bottom-nav-item" href="./income.html">
+      <span class="bottom-nav-icon" aria-hidden="true">+</span>
+      <span class="bottom-nav-label">Income</span>
+    </a>
+    <a class="bottom-nav-item active" href="./notes.html">
+      <span class="bottom-nav-icon" aria-hidden="true">N</span>
+      <span class="bottom-nav-label">Notes</span>
+    </a>
+  </nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="./js/notes.js"></script>
+  <script type="module" src="./js/profile-menu.js"></script>
+</body>
+</html>

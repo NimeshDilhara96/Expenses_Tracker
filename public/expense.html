@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker - Expense Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Manrope", "sans-serif"],
+            serif: ["Fraunces", "serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell mx-auto max-w-6xl px-4 pb-28 pt-4 sm:px-6 lg:px-8">
+    <header class="topbar dashboard-topbar flex items-center justify-between gap-4">
+      <div class="topbar-heading">
+        <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+          <span class="app-logo-mark" aria-hidden="true">
+            <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+          </span>
+          <span class="app-logo-meta">
+            <span class="app-logo-name">Expense Tracker</span>
+            <span class="app-logo-tag">Smart Finance</span>
+          </span>
+        </a>
+      </div>
+      <div class="topbar-actions">
+        <div class="profile-hello-chip" aria-live="polite">
+          <span class="profile-hello-text js-profile-hello-text">Hello</span>
+        </div>
+        <div class="profile-menu-wrap">
+          <button id="profile-trigger" class="profile-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Open profile menu">
+            <span class="avatar-pill" data-default-avatar="E" aria-hidden="true">E</span>
+          </button>
+          <div id="profile-menu" class="profile-popover hidden" role="menu" aria-label="Profile menu">
+            <div class="profile-menu-head" role="none">
+              <span class="profile-menu-badge">Account</span>
+              <p id="profile-email" class="profile-email">Not signed in</p>
+              <p class="profile-menu-sub">Manage your account and appearance.</p>
+            </div>
+            <div class="profile-menu-actions" role="none">
+              <button id="profile-login-btn" class="profile-action-btn profile-theme-btn" type="button">Sign in / Sign up</button>
+              <button id="profile-theme-toggle" class="profile-action-btn profile-theme-btn" type="button">Dark mode</button>
+              <button id="profile-language-toggle" class="profile-action-btn profile-theme-btn" type="button">සිංහල</button>
+              <button id="profile-logout-btn" class="profile-action-btn profile-logout-btn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="auth-view" class="card"></section>
+
+    <section id="app-view" class="hidden">
+      <div id="main-overview-block" class="grid gap-4">
+      <div id="expense-summary-card" class="card summary-card">
+        <div class="summary-heading">
+          <h2>Net balance</h2>
+        </div>
+        <p id="net-total" class="month-total">LKR 0.00</p>
+        <div id="net-by-source" class="net-source-grid"></div>
+      </div>
+
+      <div class="view-toggle" role="tablist" aria-label="Tracker sections">
+        <button id="expense-tab" class="btn ghost tab-btn active" type="button" role="tab" aria-selected="true">Expenses</button>
+        <button id="income-tab" class="btn ghost tab-btn" type="button" role="tab" aria-selected="false">Income</button>
+      </div>
+      </div>
+
+      <section id="expense-section" class="view-panel grid gap-4">
+      <div class="card summary-card">
+        <div class="summary-heading">
+          <h2>Expenses</h2>
+          <div class="summary-actions">
+            <select id="expense-period-filter" aria-label="Select expense period">
+              <option value="THIS_MONTH">This month</option>
+              <option value="THIS_YEAR">This year</option>
+              <option value="CUSTOM_RANGE">Custom range</option>
+              <option value="ALL">All</option>
+            </select>
+          </div>
+        </div>
+        <p id="month-total" class="month-total">LKR 0.00</p>
+        <div id="expense-range-controls" class="range-controls hidden">
+          <label>
+            From
+            <input id="expense-from-date" type="date">
+          </label>
+          <label>
+            To
+            <input id="expense-to-date" type="date">
+          </label>
+        </div>
+        <div id="category-breakdown" class="chips"></div>
+      </div>
+
+      <div id="expense-form-card" class="card hidden">
+        <h2>Add expense</h2>
+        <button
+          id="start-scan-btn"
+          type="button"
+          class="btn ghost full-width"
+          style="margin-bottom:12px;"
+        >
+          Scan receipt
+        </button>
+        <form id="expense-form" class="form-grid">
+          <label>
+            Amount (LKR)
+            <input id="amount" name="amount" type="number" min="1" step="0.01" required placeholder="e.g. 2450">
+          </label>
+          <label>
+            Category
+            <select id="category" name="category" required></select>
+          </label>
+          <label>
+            Deduct from source
+            <select id="expense-source" name="expense_source" required></select>
+          </label>
+          <label>
+            Date
+            <input id="expense-date" name="date" type="date" required>
+          </label>
+          <label class="full-width">
+            Note (optional)
+            <input id="note" name="note" type="text" maxlength="120" placeholder="Groceries for the week">
+          </label>
+          <button class="btn primary full-width" type="submit">Save expense</button>
+        </form>
+      </div>
+
+      <div id="expense-history-card" class="card">
+        <div class="list-head">
+          <h2>Recent expenses</h2>
+          <select id="category-filter" aria-label="Filter by category"></select>
+        </div>
+        <div id="expense-list" class="expense-list"></div>
+      </div>
+
+      </section>
+
+      <section id="expense-overview" class="view-panel hidden grid gap-4" aria-label="Expense overview">
+        <div class="card overview-header-card">
+          <div class="summary-heading overview-header">
+            <div>
+              <p class="eyebrow">Expense overview</p>
+              <h2>All expenses at a glance</h2>
+            </div>
+          </div>
+          <p id="expense-overview-total" class="month-total">LKR 0.00</p>
+          <p id="expense-overview-range" class="overview-range"></p>
+        </div>
+
+        <div class="overview-grid">
+          <div class="card overview-chart-card">
+            <h3>Category split</h3>
+            <div class="pie-layout">
+              <div id="expense-pie-chart" class="pie-chart" aria-label="Expense pie chart"></div>
+              <div id="expense-pie-legend" class="pie-legend"></div>
+            </div>
+          </div>
+
+          <div class="card overview-list-card">
+            <h3>All expense categories</h3>
+            <div id="expense-overview-breakdown" class="overview-breakdown"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="list-head">
+            <h2>All expenses</h2>
+          </div>
+          <div id="expense-overview-list" class="expense-list"></div>
+        </div>
+      </section>
+
+      <section id="income-section" class="view-panel hidden grid gap-4">
+        <div id="income-summary-card" class="card summary-card">
+          <div class="summary-heading">
+            <h2>Income</h2>
+            <select id="income-period-filter" aria-label="Select income period">
+              <option value="THIS_MONTH">This month</option>
+              <option value="THIS_YEAR">This year</option>
+              <option value="CUSTOM_RANGE">Custom range</option>
+              <option value="ALL">All</option>
+            </select>
+          </div>
+          <p id="income-total" class="month-total">LKR 0.00</p>
+          <div id="income-range-controls" class="range-controls hidden">
+            <label>
+              From
+              <input id="income-from-date" type="date">
+            </label>
+            <label>
+              To
+              <input id="income-to-date" type="date">
+            </label>
+          </div>
+          <div id="income-breakdown" class="chips"></div>
+        </div>
+
+        <div id="income-source-card" class="card">
+          <h2>Manage income sources</h2>
+          <form id="source-form" class="source-form">
+            <input id="source-name" name="source_name" type="text" required maxlength="40" placeholder="e.g. Side hustle">
+            <input id="source-details" name="source_details" type="text" maxlength="120" placeholder="Details (optional)">
+            <button class="btn primary" type="submit">Add source</button>
+          </form>
+          <div id="source-list" class="source-list"></div>
+        </div>
+
+        <div id="income-form-card" class="card hidden">
+          <h2>Add income</h2>
+          <form id="income-form" class="form-grid">
+            <label>
+              Amount (LKR)
+              <input id="income-amount" name="amount" type="number" min="1" step="0.01" required placeholder="e.g. 50000">
+            </label>
+            <label>
+              Source
+              <select id="income-source" name="source" required></select>
+            </label>
+            <label>
+              Date
+              <input id="income-date" name="date" type="date" required>
+            </label>
+            <label class="full-width">
+              Note (optional)
+              <input id="income-note" name="note" type="text" maxlength="120" placeholder="Monthly salary">
+            </label>
+            <button class="btn primary full-width" type="submit">Save income</button>
+          </form>
+        </div>
+
+        <div id="income-history-card" class="card">
+          <div class="list-head">
+            <h2>Recent income</h2>
+            <select id="income-source-filter" aria-label="Filter by source"></select>
+          </div>
+          <div id="income-list" class="expense-list"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="edit-dialog" class="edit-dialog">
+    <form id="edit-form" method="dialog" class="form-grid">
+      <h3>Edit expense</h3>
+      <input id="edit-id" name="id" type="hidden">
+      <label>
+        Amount (LKR)
+        <input id="edit-amount" name="amount" type="number" min="1" step="0.01" required>
+      </label>
+      <label>
+        Category
+        <select id="edit-category" name="category" required></select>
+      </label>
+      <label>
+        Deduct from source
+        <select id="edit-expense-source" name="expense_source" required></select>
+      </label>
+      <label>
+        Date
+        <input id="edit-date" name="date" type="date" required>
+      </label>
+      <label class="full-width">
+        Note
+        <input id="edit-note" name="note" type="text" maxlength="120">
+      </label>
+      <div class="dialog-actions full-width">
+        <button class="btn ghost" value="cancel" type="button" id="edit-cancel">Cancel</button>
+        <button class="btn primary" value="default" type="submit">Update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="edit-income-dialog" class="edit-dialog">
+    <form id="edit-income-form" method="dialog" class="form-grid">
+      <h3>Edit income</h3>
+      <input id="edit-income-id" name="id" type="hidden">
+      <label>
+        Amount (LKR)
+        <input id="edit-income-amount" name="amount" type="number" min="1" step="0.01" required>
+      </label>
+      <label>
+        Source
+        <select id="edit-income-source" name="source" required></select>
+      </label>
+      <label>
+        Date
+        <input id="edit-income-date" name="date" type="date" required>
+      </label>
+      <label class="full-width">
+        Note
+        <input id="edit-income-note" name="note" type="text" maxlength="120">
+      </label>
+      <div class="dialog-actions full-width">
+        <button class="btn ghost" value="cancel" type="button" id="edit-income-cancel">Cancel</button>
+        <button class="btn primary" value="default" type="submit">Update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <nav class="mobile-bottom-nav" aria-label="Dashboard navigation">
+    <a class="bottom-nav-item" href="./index.html">
+      <span class="bottom-nav-icon" aria-hidden="true">H</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a class="bottom-nav-item active" href="./expense.html">
+      <span class="bottom-nav-icon" aria-hidden="true">-</span>
+      <span class="bottom-nav-label">Expense</span>
+    </a>
+    <a class="bottom-nav-item" href="./income.html">
+      <span class="bottom-nav-icon" aria-hidden="true">+</span>
+      <span class="bottom-nav-label">Income</span>
+    </a>
+    <a class="bottom-nav-item" href="./notes.html">
+      <span class="bottom-nav-icon" aria-hidden="true">N</span>
+      <span class="bottom-nav-label">Notes</span>
+    </a>
+  </nav>
+
+  <div id="scanner-overlay" class="fixed inset-0 z-50 hidden bg-black">
+    <video id="scanner-video" class="h-full w-full object-cover" autoplay playsinline></video>
+
+    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div class="relative h-64 w-64 border-2 border-white/50 rounded-3xl">
+        <div class="absolute inset-0 scanner-anim"></div>
+        <div class="absolute -top-1 -left-1 h-8 w-8 border-t-4 border-l-4 border-blue-500 rounded-tl-xl"></div>
+        <div class="absolute -top-1 -right-1 h-8 w-8 border-t-4 border-r-4 border-blue-500 rounded-tr-xl"></div>
+        <div class="absolute -bottom-1 -left-1 h-8 w-8 border-b-4 border-l-4 border-blue-500 rounded-bl-xl"></div>
+        <div class="absolute -bottom-1 -right-1 h-8 w-8 border-b-4 border-r-4 border-blue-500 rounded-br-xl"></div>
+      </div>
+      <p class="mt-8 text-white font-medium text-center px-6">Align receipt within the frame</p>
+    </div>
+
+    <div class="absolute bottom-12 left-0 right-0 flex justify-center gap-8 px-6">
+      <button id="cancel-scan" class="h-14 w-14 flex items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md pointer-events-auto" type="button">
+        X
+      </button>
+      <button id="capture-btn" class="h-16 w-16 flex items-center justify-center rounded-full bg-white text-black shadow-2xl transition-transform active:scale-90 pointer-events-auto" type="button">
+        <div class="h-12 w-12 rounded-full border-2 border-black/10"></div>
+      </button>
+    </div>
+  </div>
+
+  <div id="processing-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm">
+    <div class="w-full max-w-xs rounded-3xl bg-white p-8 text-center shadow-2xl">
+      <div class="mb-4 flex justify-center">
+        <div class="h-12 w-12 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
+      </div>
+      <h3 class="text-xl font-bold">Analyzing Receipt</h3>
+      <p id="processing-status" class="mt-2 text-sm text-slate-500">Extracting details...</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/profile-menu.js"></script>
+  <script type="module" src="./js/scanner.js"></script>
+  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("income-tab")?.classList.add("hidden");
+      document.getElementById("income-section")?.classList.add("hidden");
+      document.getElementById("expense-tab")?.click();
+    });
+  </script>
+</body>
+</html>

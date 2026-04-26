@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in | Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Manrope", "sans-serif"],
+            serif: ["Fraunces", "serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="font-sans antialiased">
+  <div class="ambient-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <main class="app-shell dashboard-shell mx-auto grid max-w-xl px-4 pb-10 pt-6 sm:px-6">
+    <a class="app-logo" href="./index.html" aria-label="Go to dashboard home">
+      <span class="app-logo-mark" aria-hidden="true">
+        <img src="./logo-mark.svg" alt="" class="app-logo-icon">
+      </span>
+      <span class="app-logo-meta">
+        <span class="app-logo-name">Expense Tracker</span>
+        <span class="app-logo-tag">Smart Finance</span>
+      </span>
+    </a>
+    <section class="card dashboard-card rounded-3xl border border-slate-200/70 p-5 shadow-xl sm:p-6">
+      <p class="eyebrow">Secure access</p>
+      <h1 id="auth-title" class="mt-1 text-3xl font-serif">Sign in</h1>
+      <p class="overview-range mt-2 text-sm text-slate-500" id="auth-subtitle">Use your account to continue.</p>
+
+      <form id="auth-form" class="form-grid mt-5 grid gap-4">
+        <label>
+          Email
+          <input id="auth-email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
+        </label>
+        <label>
+          Password
+          <input id="auth-password" name="password" type="password" minlength="6" required placeholder="Minimum 6 characters" autocomplete="current-password">
+        </label>
+        <div class="dialog-actions full-width mt-2 flex flex-wrap gap-2" style="justify-content: flex-start;">
+          <button id="auth-submit" class="btn primary" type="submit">Sign in</button>
+          <button id="auth-switch" class="btn ghost" type="button">Create account</button>
+        </div>
+      </form>
+
+      <p id="auth-status" class="eyebrow min-h-5 pt-2 text-xs" style="margin-top: 0.85rem;"></p>
+
+      <div class="dialog-actions" style="justify-content: flex-start; margin-top: 0.9rem;">
+        <a id="auth-back" class="btn ghost" href="./index.html">Back</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="./js/auth.js"></script>
+</body>
+</html>
