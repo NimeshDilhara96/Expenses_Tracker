@@ -30,11 +30,6 @@ const nextConfig = {
 
   async redirects() {
     return [
-      {
-        source: "/",
-        destination: "/auth",
-        permanent: false
-      },
       // Redirect any .html file to its clean URL
       { source: "/index.html", destination: "/", permanent: true },
       { source: "/auth.html", destination: "/auth", permanent: true },
