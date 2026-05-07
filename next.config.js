@@ -34,7 +34,17 @@ const nextConfig = {
         source: "/",
         destination: "/auth",
         permanent: false
-      }
+      },
+      // Redirect any .html file to its clean URL
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/auth.html", destination: "/auth", permanent: true },
+      { source: "/expense.html", destination: "/expense", permanent: true },
+      { source: "/income.html", destination: "/income", permanent: true },
+      { source: "/notes.html", destination: "/notes", permanent: true },
+      { source: "/transfer.html", destination: "/transfer", permanent: true },
+      { source: "/addexpense.html", destination: "/addexpense", permanent: true },
+      { source: "/addincome.html", destination: "/addincome", permanent: true },
+      { source: "/accounts.html", destination: "/accounts", permanent: true }
     ];
   },
 
